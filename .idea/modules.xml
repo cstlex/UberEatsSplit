@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/uber_split.iml" filepath="$PROJECT_DIR$/.idea/uber_split.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/UberSplit.iml" filepath="$PROJECT_DIR$/.idea/UberSplit.iml" />
     </modules>
   </component>
 </project>

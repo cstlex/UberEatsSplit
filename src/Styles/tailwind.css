@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    @apply bg-gray-background;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+.shadow-around {
+    box-shadow: 0 4px 30px 0 gainsboro;
+}
