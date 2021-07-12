@@ -99,11 +99,13 @@ export default function App() {
         : (menuTotal + tax) * (fees.tip / 100.0)
 
     return (
-        <div className="w-screen h-screen p-5 flex flex-1 flex-col">
+        <div className="w-screen h-screen p-5 flex flex-1 flex-col bg-white dark:bg-black">
             <div className="flex-1 flex flex-col flex-grow overflow-scroll">
-                <span className="font-medium text-xl">UberEats Bill Split</span>
+                <span className="font-medium text-xl text-black dark:text-white">
+                    UberEats Bill Split
+                </span>
                 <table className="w-full mt-3 border-separate table-fixed">
-                    <thead className="bg-blue-thead">
+                    <thead className="bg-blue-thead dark:bg-gray-35 text-black dark:text-white">
                         <tr>
                             <th>Name</th>
                             <th className="hidden sm:table-cell">Menu</th>
@@ -118,10 +120,17 @@ export default function App() {
                     </thead>
                     <tbody>
                         {users.map((user, i) => (
-                            <tr key={`${i}-${users.length}`}>
+                            <tr
+                                key={`${i}-${users.length}`}
+                                className={
+                                    i % 2 === 0
+                                        ? 'bg-white dark:bg-black'
+                                        : 'bg-blue-tbody dark:bg-blue-tbody-dark'
+                                }
+                            >
                                 <td>
                                     <input
-                                        className="w-full"
+                                        className="w-full bg-transparent text-black dark:text-white"
                                         value={user.name}
                                         placeholder="Name"
                                         onChange={(e) =>
@@ -134,7 +143,7 @@ export default function App() {
                                 </td>
                                 <td className="hidden sm:table-cell">
                                     <input
-                                        className="w-full"
+                                        className="w-full bg-transparent text-black dark:text-white"
                                         value={user.menu}
                                         placeholder="Menu"
                                         onChange={(e) =>
@@ -147,7 +156,7 @@ export default function App() {
                                 </td>
                                 <td>
                                     <CurrencyInput
-                                        className="w-full"
+                                        className="w-full bg-transparent text-black dark:text-white"
                                         prefix="$"
                                         defaultValue={user.price}
                                         placeholder="Price"
@@ -160,13 +169,13 @@ export default function App() {
                                         }
                                     />
                                 </td>
-                                <td className="bg-gray-200 hidden sm:table-cell">
+                                <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(
                                         fees.allServiceFees / users.length,
                                         5,
                                     )}
                                 </td>
-                                <td className="bg-gray-200 hidden sm:table-cell">
+                                <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(
                                         (user.price +
                                             fees.allServiceFees /
@@ -175,13 +184,13 @@ export default function App() {
                                         5,
                                     )}
                                 </td>
-                                <td className="bg-gray-200 hidden sm:table-cell">
+                                <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(totalTip / users.length)}
                                 </td>
-                                <td className="bg-gray-200 hidden sm:table-cell">
+                                <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(fees.discount / users.length)}
                                 </td>
-                                <td className="bg-gray-200">
+                                <td className="bg-gray-200 text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(
                                         (user.price +
                                             fees.allServiceFees /
@@ -203,7 +212,7 @@ export default function App() {
                                 </td>
                             </tr>
                         ))}
-                        <tr className="bg-gray-300">
+                        <tr className="bg-gray-300 text-black dark:bg-gray-700 text-black dark:text-white">
                             <td>Subtotal</td>
                             <td className="hidden sm:table-cell" />
                             <td>{formatMoney(menuTotal)}</td>
@@ -233,7 +242,7 @@ export default function App() {
                 </table>
 
                 <table className="w-full sm:w-2/3 table-fixed mt-3 mb-4">
-                    <tbody className="bg-gray-200">
+                    <tbody className="bg-gray-200 text-black dark:bg-gray-700 dark:text-white">
                         <tr>
                             <td className="hidden sm:table-cell">
                                 All Fees (Service fee, Delivery fee, ... etc)
@@ -241,7 +250,7 @@ export default function App() {
                             <td className="sm:hidden">Fees</td>
                             <td>
                                 <CurrencyInput
-                                    className="w-full bg-transparent"
+                                    className="w-full bg-white dark:bg-black"
                                     prefix="$"
                                     defaultValue={fees.allServiceFees}
                                     placeholder="Fees"
@@ -267,7 +276,7 @@ export default function App() {
                                                 setTipAbsolute(false)
                                             }
                                         />
-                                        <span className="ml-1 text-gray-700">
+                                        <span className="ml-1 text-gray-700 dark:text-white">
                                             Percent
                                         </span>
                                     </label>
@@ -280,7 +289,7 @@ export default function App() {
                                                 setTipAbsolute(true)
                                             }
                                         />
-                                        <span className="ml-1 text-gray-700">
+                                        <span className="ml-1 text-gray-700 dark:text-white">
                                             Absolute
                                         </span>
                                     </label>
@@ -288,8 +297,8 @@ export default function App() {
                             </td>
                             <td>
                                 <CurrencyInput
-                                    key={`${isTipAbsolute}${fees.tip}`}
-                                    className="w-full bg-white"
+                                    key={`${isTipAbsolute}`}
+                                    className="w-full bg-white dark:bg-black"
                                     prefix={isTipAbsolute ? '$' : ''}
                                     defaultValue={fees.tip}
                                     placeholder="Tip"
@@ -307,7 +316,7 @@ export default function App() {
                                 Tax
                                 <div className="ml-auto mr-3 flex-row">
                                     <CurrencyInput
-                                        className="bg-white w-20 ml-3 text-right pr-1"
+                                        className="bg-white w-20 ml-3 text-right pr-1 dark:bg-black dark:text-white"
                                         defaultValue={fees.taxRate}
                                         placeholder="Tax"
                                         decimalsLimit={5}
@@ -326,7 +335,7 @@ export default function App() {
                             <td>Discount</td>
                             <td>
                                 <CurrencyInput
-                                    className="w-full bg-white"
+                                    className="w-full bg-white dark:bg-black dark:text-white"
                                     prefix="$"
                                     defaultValue={fees.discount}
                                     placeholder="Discount"

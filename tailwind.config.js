@@ -5,7 +5,7 @@ module.exports = {
         './src/**/*.tsx'
     ],
     presets: [],
-    darkMode: false, // or 'media' or 'class'
+    darkMode: 'media',
     theme: {
         screens: {
             sm: '640px',
@@ -45,6 +45,7 @@ module.exports = {
                 highlight: '#008BC8',
                 thead: '#8DDFFF',
                 tbody: '#E4F7FF',
+                'tbody-dark': '#272EB8',
                 invoice: '#DAE3F3',
             },
             indigo: colors.indigo,
