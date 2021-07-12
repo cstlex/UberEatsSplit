@@ -203,11 +203,14 @@ export default function App() {
                                 <td>
                                     {users.length > 1 && (
                                         <button
-                                            className="text-base bg-gray-35 h-7 w-20 text-center text-white rounded my-auto ml-1 md:ml-2 mt-2 md:mt-0 mb-2 md:mb-0"
+                                            className="text-base bg-gray-35 h-7 w-20 text-center text-white rounded my-auto mx-auto md:ml-2 mt-2 md:mt-0 mb-2 md:mb-0"
                                             onClick={() => removeUser(i)}
                                         >
                                             Delete
                                         </button>
+                                    )}
+                                    {users.length <= 1 && (
+                                        <div className="h-7 w-20" />
                                     )}
                                 </td>
                             </tr>
