@@ -24,6 +24,11 @@ jobs:
         node-version: '14'
         cache: 'yarn'
     - run: yarn install
+    - run: yarn build
+    - run: echo $CNAME_HOST >> build/CNAME
+      shell: bash
+      env:
+        CNAME_HOST: ${{CNAME_HOST}}
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
