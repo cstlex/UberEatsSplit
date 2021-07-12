@@ -292,7 +292,7 @@ export default function App() {
                                     className="w-full bg-white"
                                     prefix={isTipAbsolute ? '$' : ''}
                                     defaultValue={fees.tip}
-                                    placeholder="Tax"
+                                    placeholder="Tip"
                                     decimalsLimit={5}
                                     onValueChange={(value) =>
                                         onFeesChange({
@@ -308,7 +308,6 @@ export default function App() {
                                 <div className="ml-auto mr-3 flex-row">
                                     <CurrencyInput
                                         className="bg-white w-20 ml-3 text-right pr-1"
-                                        prefix="$"
                                         defaultValue={fees.taxRate}
                                         placeholder="Tax"
                                         decimalsLimit={5}
