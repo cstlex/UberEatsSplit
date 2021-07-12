@@ -28,7 +28,7 @@ jobs:
     - run: echo $CNAME_HOST >> build/CNAME
       shell: bash
       env:
-        CNAME_HOST: ${{CNAME_HOST}}
+        CNAME_HOST: ${{ secrets.CNAME_HOST }}
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
