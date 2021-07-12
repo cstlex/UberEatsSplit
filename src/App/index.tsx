@@ -1,6 +1,8 @@
 import React from 'react'
 import Add from 'Assets/Images/add.svg'
+import Clear from 'Assets/Images/clear.svg'
 import CurrencyInput from 'react-currency-input-field'
+import { timeout } from 'Utils'
 
 const DEFAULT_TAX_RATE = 13
 
@@ -58,6 +60,7 @@ const emptyUser: User = {
 }
 
 export default function App() {
+    const [reloading, setReloading] = React.useState(false)
     const [users, setUsers] = React.useState<User[]>([emptyUser])
     const [fees, setFees] = React.useState<Fees>({
         allServiceFees: 0,
@@ -66,6 +69,7 @@ export default function App() {
         isTipAbsolute: true,
         taxRate: DEFAULT_TAX_RATE,
     })
+
     const isTipAbsolute = fees.isTipAbsolute
     const setTipAbsolute = (absolute: boolean) => {
         setFees({
@@ -74,6 +78,19 @@ export default function App() {
         })
     }
 
+    const clearUser = async () => {
+        setFees({
+            allServiceFees: 0,
+            discount: 0,
+            tip: 0,
+            isTipAbsolute: true,
+            taxRate: DEFAULT_TAX_RATE,
+        })
+        setUsers([emptyUser])
+        setReloading(true)
+        await timeout(100)
+        setReloading(false)
+    }
     const addUser = () => {
         setUsers([...users, emptyUser])
     }
@@ -100,7 +117,7 @@ export default function App() {
 
     return (
         <div className="w-screen h-screen p-5 flex flex-1 flex-col bg-white dark:bg-black">
-            <div className="flex-1 flex flex-col flex-grow overflow-scroll">
+            <div className="flex-1 flex flex-col flex-grow overflow-scroll pb-24">
                 <span className="font-medium text-xl text-black dark:text-white">
                     UberEats Bill Split
                 </span>
@@ -253,6 +270,7 @@ export default function App() {
                             <td className="sm:hidden">Fees</td>
                             <td>
                                 <CurrencyInput
+                                    key={`${reloading}`}
                                     className="w-full bg-white dark:bg-black"
                                     prefix="$"
                                     defaultValue={fees.allServiceFees}
@@ -300,7 +318,7 @@ export default function App() {
                             </td>
                             <td>
                                 <CurrencyInput
-                                    key={`${isTipAbsolute}`}
+                                    key={`${isTipAbsolute}${reloading}`}
                                     className="w-full bg-white dark:bg-black"
                                     prefix={isTipAbsolute ? '$' : ''}
                                     defaultValue={fees.tip}
@@ -319,6 +337,7 @@ export default function App() {
                                 Tax
                                 <div className="ml-auto mr-3 flex-row">
                                     <CurrencyInput
+                                        key={`${reloading}`}
                                         className="bg-white w-20 ml-3 text-right pr-1 dark:bg-black dark:text-white"
                                         defaultValue={fees.taxRate}
                                         placeholder="Tax"
@@ -338,6 +357,7 @@ export default function App() {
                             <td>Discount</td>
                             <td>
                                 <CurrencyInput
+                                    key={`${reloading}`}
                                     className="w-full bg-white dark:bg-black dark:text-white"
                                     prefix="$"
                                     defaultValue={fees.discount}
@@ -354,13 +374,23 @@ export default function App() {
                     </tbody>
                 </table>
             </div>
-            <div className="absolute mb-4 mr-4 bottom-0 right-0">
+            <div className="absolute mb-8 mr-6 bottom-0 right-0">
                 <button
-                    className="p-0 w-16 h-16 bg-blue-highlight rounded-full hover:bg-blue-hover active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
+                    className="mr-2 p-0 w-14 h-14 bg-blue-highlight rounded-full hover:bg-blue-hover active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
+                    onClick={clearUser}
+                >
+                    <img
+                        className="w-9 h-9 inline-block"
+                        src={Clear}
+                        alt="Clear fields"
+                    />
+                </button>
+                <button
+                    className="p-0 w-14 h-14 bg-blue-highlight rounded-full hover:bg-blue-hover active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
                     onClick={addUser}
                 >
                     <img
-                        className="w-10 h-10 inline-block"
+                        className="w-9 h-9 inline-block"
                         src={Add}
                         alt="Add person"
                     />
