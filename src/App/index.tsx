@@ -257,6 +257,7 @@ export default function App() {
                                         .reduce((p, n) => p + n),
                                 )}
                             </td>
+                            <td />
                         </tr>
                     </tbody>
                 </table>
