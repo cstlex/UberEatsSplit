@@ -227,7 +227,7 @@ export default function App() {
                                         </button>
                                     )}
                                     {users.length <= 1 && (
-                                        <div className="h-7 w-20" />
+                                        <div className="h-7 w-20 my-auto mx-auto md:ml-2 mt-2 md:mt-0 mb-2 md:mb-0" />
                                     )}
                                 </td>
                             </tr>
