@@ -287,7 +287,7 @@ export default function App() {
                             <td>
                                 <CurrencyInput
                                     key={`${isTipAbsolute}${fees.tip}`}
-                                    className="w-full bg-transparent"
+                                    className="w-full bg-white"
                                     prefix={isTipAbsolute ? '$' : ''}
                                     defaultValue={fees.tip}
                                     placeholder="Tax"
@@ -325,7 +325,7 @@ export default function App() {
                             <td>Discount</td>
                             <td>
                                 <CurrencyInput
-                                    className="w-full bg-transparent"
+                                    className="w-full bg-white"
                                     prefix="$"
                                     defaultValue={fees.discount}
                                     placeholder="Discount"
@@ -346,7 +346,11 @@ export default function App() {
                     className="p-0 w-16 h-16 bg-blue-highlight rounded-full hover:bg-blue-hover active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
                     onClick={addUser}
                 >
-                    <img className="w-10 h-10 inline-block" src={Add} />
+                    <img
+                        className="w-10 h-10 inline-block"
+                        src={Add}
+                        alt="Add person"
+                    />
                 </button>
             </div>
         </div>

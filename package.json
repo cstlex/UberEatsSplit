@@ -35,7 +35,7 @@
         "watch:styles": "postcss src/Styles/tailwind.css -o src/Styles/output.css --watch --verbose",
         "build:styles": "postcss src/Styles/tailwind.css -o src/Styles/output.css --verbose",
         "prebuild": "NODE_ENV=production yarn build:styles",
-        "predeploy": "npm run build",
+        "predeploy": "npm run build && cp CNAME build/CNAME",
         "deploy": "gh-pages -d build"
     },
     "eslintConfig": {
