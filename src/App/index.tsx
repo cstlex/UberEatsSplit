@@ -142,7 +142,7 @@ export default function App() {
                                 className={
                                     i % 2 === 0
                                         ? 'bg-white dark:bg-black'
-                                        : 'bg-blue-tbody dark:bg-blue-tbody-dark'
+                                        : 'bg-blue-tbody dark:bg-gray-900'
                                 }
                             >
                                 <td>
@@ -257,6 +257,7 @@ export default function App() {
                                         .reduce((p, n) => p + n),
                                 )}
                             </td>
+                            <td />
                         </tr>
                     </tbody>
                 </table>
