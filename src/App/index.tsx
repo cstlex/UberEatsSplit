@@ -60,6 +60,7 @@ const emptyUser: User = {
 }
 
 export default function App() {
+    const [title, setTitle] = React.useState('UberEats Bill Split')
     const [reloading, setReloading] = React.useState(false)
     const [users, setUsers] = React.useState<User[]>([emptyUser])
     const [fees, setFees] = React.useState<Fees>({
@@ -113,14 +114,17 @@ export default function App() {
     const tax = (menuTotal + fees.allServiceFees) * (fees.taxRate / 100.0)
     const totalTip = isTipAbsolute
         ? fees.tip
-        : (menuTotal + tax) * (fees.tip / 100.0)
+        : (menuTotal + fees.allServiceFees + tax - fees.discount) *
+          (fees.tip / 100.0)
 
     return (
         <div className="w-screen h-screen p-5 flex flex-1 flex-col bg-white dark:bg-black">
             <div className="flex-1 flex flex-col flex-grow overflow-scroll pb-24">
-                <span className="font-medium text-xl text-black dark:text-white">
-                    UberEats Bill Split
-                </span>
+                <input
+                    className="font-medium text-xl text-black dark:text-white bg-white dark:bg-black"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
                 <table className="w-full mt-3 border-separate table-fixed">
                     <thead className="bg-blue-thead dark:bg-gray-35 text-black dark:text-white">
                         <tr>
