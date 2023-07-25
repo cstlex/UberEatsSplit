@@ -4,6 +4,7 @@
     "private": true,
     "homepage": "https://uber.minsoo.dev",
     "dependencies": {
+        "html-to-image": "^1.11.11",
         "react": "^17.0.2",
         "react-currency-input-field": "^3.4.2",
         "react-dom": "^17.0.2",
