@@ -15,7 +15,8 @@ type Fees = {
     allServiceFees: number
     tip: number
     isTipAbsolute: boolean
-    discount: number
+    preTaxDiscount: number
+    postTaxDiscount: number
     taxRate: number
 }
 
@@ -46,10 +47,12 @@ function moneyToValue(money: string | undefined): number {
 
 function userTotal(user: User, fees: Fees, totalUsers: number) {
     return (
-        (user.price + fees.allServiceFees / totalUsers) *
+        (user.price +
+            fees.allServiceFees / totalUsers -
+            fees.preTaxDiscount / totalUsers) *
             (1 + fees.taxRate / 100.0) +
         fees.tip / totalUsers -
-        fees.discount / totalUsers
+        fees.postTaxDiscount / totalUsers
     )
 }
 
@@ -65,7 +68,8 @@ export default function App() {
     const [users, setUsers] = React.useState<User[]>([emptyUser])
     const [fees, setFees] = React.useState<Fees>({
         allServiceFees: 0,
-        discount: 0,
+        preTaxDiscount: 0,
+        postTaxDiscount: 0,
         tip: 0,
         isTipAbsolute: true,
         taxRate: DEFAULT_TAX_RATE,
@@ -82,7 +86,8 @@ export default function App() {
     const clearUser = async () => {
         setFees({
             allServiceFees: 0,
-            discount: 0,
+            preTaxDiscount: 0,
+            postTaxDiscount: 0,
             tip: 0,
             isTipAbsolute: true,
             taxRate: DEFAULT_TAX_RATE,
@@ -111,10 +116,16 @@ export default function App() {
     const menuTotal = users
         .map((u) => u.price)
         .reduce((total, price) => total + price)
-    const tax = (menuTotal + fees.allServiceFees) * (fees.taxRate / 100.0)
+    const tax =
+        (menuTotal + fees.allServiceFees - fees.preTaxDiscount) *
+        (fees.taxRate / 100.0)
     const totalTip = isTipAbsolute
         ? fees.tip
-        : (menuTotal + fees.allServiceFees + tax - fees.discount) *
+        : (menuTotal +
+              fees.allServiceFees +
+              tax -
+              fees.postTaxDiscount -
+              fees.preTaxDiscount) *
           (fees.tip / 100.0)
 
     return (
@@ -199,7 +210,8 @@ export default function App() {
                                 <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(
                                         (user.price +
-                                            fees.allServiceFees /
+                                            fees.allServiceFees / users.length -
+                                            fees.preTaxDiscount /
                                                 users.length) *
                                             (fees.taxRate / 100.0),
                                         5,
@@ -209,16 +221,20 @@ export default function App() {
                                     {formatMoney(totalTip / users.length)}
                                 </td>
                                 <td className="bg-gray-200 hidden sm:table-cell text-black dark:bg-gray-700 dark:text-white">
-                                    {formatMoney(fees.discount / users.length)}
+                                    {formatMoney(
+                                        fees.postTaxDiscount / users.length +
+                                            fees.preTaxDiscount / users.length,
+                                    )}
                                 </td>
                                 <td className="bg-gray-200 text-black dark:bg-gray-700 dark:text-white">
                                     {formatMoney(
                                         (user.price +
-                                            fees.allServiceFees /
+                                            fees.allServiceFees / users.length -
+                                            fees.preTaxDiscount /
                                                 users.length) *
                                             (1 + fees.taxRate / 100.0) +
                                             fees.tip / users.length -
-                                            fees.discount / users.length,
+                                            fees.postTaxDiscount / users.length,
                                     )}
                                 </td>
                                 <td>
@@ -250,7 +266,9 @@ export default function App() {
                                 {formatMoney(totalTip)}
                             </td>
                             <td className="hidden sm:table-cell">
-                                {formatMoney(fees.discount)}
+                                {formatMoney(
+                                    fees.postTaxDiscount + fees.preTaxDiscount,
+                                )}
                             </td>
                             <td>
                                 {formatMoney(
@@ -359,18 +377,37 @@ export default function App() {
                             <td>{formatMoney(tax)}</td>
                         </tr>
                         <tr>
-                            <td>Discount</td>
+                            <td>Pre Tax Discount</td>
                             <td>
                                 <CurrencyInput
                                     key={`${reloading}`}
                                     className="w-full bg-white dark:bg-black dark:text-white"
                                     prefix="$"
-                                    defaultValue={fees.discount}
-                                    placeholder="Discount"
+                                    defaultValue={fees.postTaxDiscount}
+                                    placeholder="Pre Tax Discount"
                                     decimalsLimit={5}
                                     onValueChange={(value) =>
                                         onFeesChange({
-                                            discount: moneyToValue(value),
+                                            preTaxDiscount: moneyToValue(value),
+                                        })
+                                    }
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Post Tax Discount</td>
+                            <td>
+                                <CurrencyInput
+                                    key={`${reloading}`}
+                                    className="w-full bg-white dark:bg-black dark:text-white"
+                                    prefix="$"
+                                    defaultValue={fees.postTaxDiscount}
+                                    placeholder="Post Tax Discount"
+                                    decimalsLimit={5}
+                                    onValueChange={(value) =>
+                                        onFeesChange({
+                                            postTaxDiscount:
+                                                moneyToValue(value),
                                         })
                                     }
                                 />
